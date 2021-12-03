@@ -13,29 +13,53 @@ def intro(playerName):
         "by the time the timer is up, you win!" \
         " If you don't...\n"
     playerNameSeg = "Anyways! I forgot to ask you your name, you are...?\n\n"
+    writeSegment(segOne)
+    playerName = input("")
+    cont = True
+    while cont:
+        cont = writeSegment(catcherNameSeg)
+    
     
 
 def writeSegment(seg):
+    global box
+    box = False
     drawer = turtle.Turtle()
     drawer.clear()
     wn.bgcolor("white")
     drawer.penup()
     drawer.goto(-380, -280)
-    drawer.pendown()
-    for i in range(2):
-        drawer.forward(760)
-        drawer.left(90)
-        drawer.forward(90)
-        drawer.left(90)
+    if box != True:
+        drawer.pendown()
+        for i in range(2):
+            drawer.forward(760)
+            drawer.left(90)
+            drawer.forward(90)
+            drawer.left(90)
+            box = True
     drawer.penup()
     drawer.forward(20)
     drawer.right(90)
     drawer.write(seg, font=("Arial", 17, "normal"))
 
 def playerInfo(inpStr):
-    playerInfo = {"Teresa":"", "Alex":"", "Gina":""}
-    if inpStr[-1] == "?":
-        print(playerInfo[inpStr[:-1]]) # use while loop in main code
+    playerInfo = {"Teresa":"", "Alex":"", "Gina":""}  
+    againSeg = "Would you like to get info on other characters? \n (y or n)\n"
+    errorMssg = "Error! \nSorry, thats an invalid input. Please try running the program again\n"
+    cont = True
+    while cont:
+        if inpStr[-1] == "?":
+            writeSegment(playerInfo[inpStr[:-1]]) # use while loop in main code
+            writeSegment(againSeg)
+            again = input("")
+            if again == "y":
+                return True
+            if again == "n":
+                return False
+            else:
+                writeSegment(errorMssg)
+        else:
+            return False
 
 
 intro("zoy")
