@@ -7,7 +7,7 @@ def intro():
         " playing as?\n"
     catcherNameSeg = "Our three character options are Kate, Gina, and Alex. \nType a catchers name with a question mark"\
          " to learn more about their \nbenefits/disadvantages. Or just type their name to select them!"
-         # do the .format once you collect the inputs
+         
     segThree = "{}? Great! \nOk, so today you will be playing as {} to keep Teresa's " \
         "phone from \nfalling. "
     segFour = "If you manage to catch all her attempts (using the A and D keys)\n"\
@@ -17,6 +17,7 @@ def intro():
     transition = "Great to meet you, {}! Let the games begin!\n\n"
     writeSegment(segOne)
     cont = True
+    # if extra time: fix bug where you can put any name, not catcher names
     while cont:
         global box
         box = True
