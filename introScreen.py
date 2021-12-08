@@ -2,6 +2,7 @@ import turtle
 import time
 wn = turtle.Screen()
 wn.setup(800,600)
+
 def intro():
     segOne = "Welcome to the games!\n Today, you will be playing as...er...who are you going to be" \
         " playing as?\n"
@@ -10,30 +11,36 @@ def intro():
          
     segThree = "{}? Great! \nOk, so today you will be playing as {} to keep Teresa's " \
         "phone from \nfalling. "
-    segFour = "If you manage to catch all her attempts (using the A and D keys)\n"\
+    segFour = "If you manage to catch all their attempts (using the A and D keys)\n"\
         "by the time the timer is up, you win!" \
         " If you don't...\n"
     playerNameSeg = "Anyways! I forgot to ask you your name, you are...?\n\n"
     transition = "Great to meet you, {}! Let the games begin!\n\n"
     writeSegment(segOne)
+    time.sleep(3)
+    wn.onclick(None)
     cont = True
     # if extra time: fix bug where you can put any name, not catcher names
     while cont:
         global box
         box = True
         writeSegment(catcherNameSeg)
-        catcherInp = input("").title()
+        catcherInp = turtle.textinput("catcher name", "").title()
         cont = playerInfo(catcherInp)
     if catcherInp[-1] == "?":
         catcherInp = catcherInp[:-1]
+    time.sleep(3)
     writeSegment(segThree.format(catcherInp, catcherInp))
     time.sleep(3)
-    print(catcherInp)
+    wn.onclick(None)
     writeSegment(segFour)
     time.sleep(3)
+    wn.onclick(None)
+    playerName = turtle.textinput("Player Name", "").title()
     writeSegment(playerNameSeg)
     time.sleep(3)
-    playerName = input("").title()
+    wn.onclick(None)
+    
     writeSegment(transition.format(playerName))
 
     
@@ -65,7 +72,11 @@ def writeSegment(seg):
     drawer.setheading(0)
 
 def playerInfo(inpStr):
-    playerInfo = {"Kate":"", "Alex":"", "Gina":""}  
+    playerInfo = {"Alex":
+    "Alex-(Hard)\nPros: Tall (catches phone faster than others) Con: Slower\n "\ 
+    "Alex is tall which gives him the advantage of catching anything falling from the sky. 
+    "However, he is has quite a slow pace at running.", 
+    "Kate":"Kate-(Normal)\nPros: Normal speed + height\nKate is an average person with an average pace. She considers herself to have no disadvantages with her normal height and a speed that she's happy about.", "Gina":""}  
     againSeg = "Would you like to get info on other characters? \n (y or n)\n"
     errorMssg = "Error! \nSorry, thats an invalid input. Please try running the program again\n"
     cont = True
@@ -73,7 +84,7 @@ def playerInfo(inpStr):
         if inpStr[-1] == "?":
             writeSegment(playerInfo[inpStr[:-1]]) 
             writeSegment(againSeg)
-            again = input("")
+            again = turtle.textinput("Again?", "")
             if again == "y":
                 return True
             if again == "n":
@@ -85,5 +96,5 @@ def playerInfo(inpStr):
 
 
 intro()
-
+# questions: does onclick count as an event if we're not passing in a function
 wn.mainloop()
