@@ -20,7 +20,7 @@ teresaThrowOne = "teresaThrowFrame1.gif"
 teresaThrowTwo = "teresaThrowFrame2.gif"
 teresaRunOne = "teresaRunFrameOne.gif"
 runFrames = [teresaRunOne]
-
+throwFrames = [teresaThrowOne, teresaThrowTwo]
 scoreWriter = turtle.Turtle()
 scoreWriter.color("lightgreen")
 
@@ -34,6 +34,10 @@ wn.addshape(phoneImg)
 wn.addshape(kate)
 wn.addshape(gina)
 wn.addshape(alex)
+wn.addshape(teresaThrowOne)
+wn.addshape(teresaThrowTwo)
+wn.addshape(teresaRunOne)
+
 import turtle
 import time
 wn = turtle.Screen()
@@ -164,7 +168,7 @@ def countdown(counter=turtle.Turtle()):
     counter.getscreen().ontimer(countdown, counterInterval)
 
 # function for the all of movement/ functionality of the phone
-def phoneFalling(y, skyRange, phoneTurtle=turtle.Turtle(), catcher=catcherTurtle):
+def phoneFalling(y, skyRange, throwFrames=throwFrames, phoneTurtle=turtle.Turtle(), catcher=catcherTurtle):
     phoneTurtle.penup()
     phoneTurtle.color("red")
     catcher.color("purple")
@@ -197,6 +201,10 @@ def phoneFalling(y, skyRange, phoneTurtle=turtle.Turtle(), catcher=catcherTurtle
     # there are two cases in which the loop stops iterating, reaching the catcher, or the floor
 
     while inAir: 
+        teresaTurtle.penup()
+        teresaTurtle.setpos(phoneTurtle.pos())
+        for i in throwFrames:
+            teresaTurtle.shape(i)
         phoneTurtle.setheading(260)
         catcherTurtle.speed(0)
         # makes movement more randomized
@@ -246,7 +254,9 @@ def moveRight(catcherTurtle=catcherTurtle):
     global speedSteps
     catcherTurtle.forward(speedSteps)
 
-def runningAnimation(runFrames, rangeSpotsY, rangeSpotsX, myTurtle=turtle.Turtle()):
+teresaTurtle = turtle.Turtle()
+
+def runningAnimation(runFrames, rangeSpotsY, rangeSpotsX, myTurtle=teresaTurtle):
     myTurtle.color("orange")
     ySpot = random.randint(rangeSpotsY[0], rangeSpotsY[1])
     xSpot = random.randint(rangeSpotsX[0], rangeSpotsX[1])
