@@ -72,11 +72,20 @@ def writeSegment(seg):
     drawer.setheading(0)
 
 def playerInfo(inpStr):
-    playerInfo = {"Alex":
-    "Alex-(Hard)\nPros: Tall (catches phone faster than others) Con: Slower\n "\ 
-    "Alex is tall which gives him the advantage of catching anything falling from the sky. 
-    "However, he is has quite a slow pace at running.", 
-    "Kate":"Kate-(Normal)\nPros: Normal speed + height\nKate is an average person with an average pace. She considers herself to have no disadvantages with her normal height and a speed that she's happy about.", "Gina":""}  
+    alex = "Alex-(Hard)\nPros: Tall (catches phone faster than others) Con: Slower\n " \
+        "Alex is tall which gives him the advantage of catching anything falling from the sky."\
+            "However, he is has quite a slow pace at running."
+
+    kate = "Kate-(Normal)\nPros: Normal speed + height\nKate is an average person" \
+        "with an average pace. She considers herself to have no disadvantages" \
+            "with her normal height and a speed that she's happy about."
+    
+    gina = "Gina-(Easy)" \
+            "Pros: Fast Con: Short" \
+                "Gina is a quick runner and has an advantage if something happened to fall from the sky."\
+                "However, she is quite short so she happens to have many close call moments."
+
+    playerInfo = {"Alex": alex,"Kate": kate, "Gina": gina}  
     againSeg = "Would you like to get info on other characters? \n (y or n)\n"
     errorMssg = "Error! \nSorry, thats an invalid input. Please try running the program again\n"
     cont = True
