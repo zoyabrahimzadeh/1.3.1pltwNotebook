@@ -1,16 +1,15 @@
 import turtle as trtl
 sauce = trtl.Turtle()
-wn=trtl.Screen()
-wn.setup(800,600)
 class Ending:
   def __init__(self):
       global sauce
       sauce = trtl.Turtle()
       global zoy
       zoy = trtl.Turtle()
-      # trtl.bgcolor("#c33f3c")
+      
 
   def badEnding(self):
+    trtl.bgcolor("#c33f3c")
     sauce.speed(0)
     sauce.penup()
     sauce.setposition(-60,-50)
@@ -137,9 +136,5 @@ class Ending:
     zoy.forward(20)
     zoy.hideturtle()
 
-obj = Ending()
 
-obj.goodEnding()
 
-wn = trtl.Screen()
-wn.mainloop()
