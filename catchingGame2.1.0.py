@@ -6,9 +6,11 @@ turtle.hideturtle()
 # variable initialization 
 catcherTurtle = turtle.Turtle()
 catcherTurtle.color("green")
+catcherTurtle.penup()
+phoneTurtle=turtle.Turtle()
 score = 0
 winning = True
-fontSetup = ("Arial", 20, "normal")
+fontSetup = ("Arial", 16, "normal")
 timer = 30
 counterInterval = 1000   #1000 represents 1 second
 timerUp = False
@@ -20,14 +22,17 @@ teresaThrowOne = "teresaThrowFrame1.gif"
 teresaThrowTwo = "teresaThrowFrame2.gif"
 teresaRunOne = "teresaRunFrameOne.gif"
 runFrames = [teresaRunOne]
-throwFrames = [teresaThrowOne, teresaThrowTwo]
+throwFrames = [teresaThrowTwo, teresaThrowOne]
 scoreWriter = turtle.Turtle()
 scoreWriter.color("lightgreen")
 
 scoreWriter.penup()
 scoreWriter.hideturtle()
 scoreWriter.goto(-165, 200)
+schoolBg = "schoolBg_1_800x600.gif"
 wn = turtle.Screen()
+wn.addshape(schoolBg)
+wn.bgpic(schoolBg)
 # wn.bgcolor("lightgreen")
 # function for countdown/timer
 wn.addshape(phoneImg)
@@ -78,7 +83,6 @@ def intro():
     wn.onclick(None)
     writeSegment(playerNameSeg)
     playerName = turtle.textinput("Player Name", "").title()
-    time.sleep(3)
     wn.onclick(None)
     
     writeSegment(transition.format(playerName))
@@ -160,6 +164,7 @@ def countdown(counter=turtle.Turtle()):
     counter.write("Time's Up", font=fontSetup)
     timerUp = True
     catcherTurtle.hideturtle()
+    phoneTurtle.hideturtle()
 
     # incrementally decreases the timer so that it eventually reaches 0 
   else:
@@ -168,30 +173,31 @@ def countdown(counter=turtle.Turtle()):
     counter.getscreen().ontimer(countdown, counterInterval)
 
 # function for the all of movement/ functionality of the phone
-def phoneFalling(y, skyRange, throwFrames=throwFrames, phoneTurtle=turtle.Turtle(), catcher=catcherTurtle):
+def phoneFalling(y, skyRange, throwFrames=throwFrames, phoneTurtle=phoneTurtle, catcher=catcherTurtle):
+    phoneTurtle.penup()
+    teresaTurtle.penup()
+    teresaTurtle.goto(350, 200)
+
+    teresaY = runningAnimation(runFrames, skyRange, [200, 201])
+    phoneTurtle.goto(teresaTurtle.xcor(), teresaY+15)
     phoneTurtle.penup()
     phoneTurtle.color("red")
     catcher.color("purple")
-    phoneTurtle.shape(phoneImg)
+    catcher.penup()
     # sets the phone appearance of turtle
-    phone = 'triangle'
-    # phone2 = "ezgif-3-2a18e3e7accc.gif"
-    # ginaCatcher = "gina.gif"
-    # wn.addshape(phone2)
-    # wn.addshape(ginaCatcher)
-    #catcherTurtle.shape(ginaCatcher)
-    phoneTurtle.shape('triangle')
+    phoneTurtle.shape(phoneImg)
+    
 
     # since we can't use actual videos, we're using stop motion of different angles 
     # to make it stimulate / appear as if theres movement
     angle = [phoneImg, phoneImg, phoneImg, phoneImg, phoneImg, phoneImg]
 
     # this would also be the x of where teresa would run to (where she drops the phone from)
-    x = random.randint(skyRange[0], skyRange[1])
-    print(x)
-    phoneTurtle.goto(x,y) # top of bridge, where the phone is dropped cords
+    # x = random.randint(skyRange[0], skyRange[1])
+    # print(x)
+    # phoneTurtle.goto(x,y) # top of bridge, where the phone is dropped cords
     phoneTurtle.setheading(260) # sets the angle so it falls downward
-    
+
     # defines the variable used to repeat the while loop until the phone reaches catcher/ floor
 
     inAir = True
@@ -199,12 +205,15 @@ def phoneFalling(y, skyRange, throwFrames=throwFrames, phoneTurtle=turtle.Turtle
     # checks if the  position for the catcher is close to the position of the phone
     # code looping phone movement will run until they are in close range of each other (collision)
     # there are two cases in which the loop stops iterating, reaching the catcher, or the floor
+    teresaTurtle.penup()
+    # teresaTurtle.setpos(phoneTurtle.pos())
+    phoneTurtle.showturtle()
+    for i in throwFrames:
+        teresaTurtle.shape(i)
+        time.sleep(0.5)
 
     while inAir: 
-        teresaTurtle.penup()
-        teresaTurtle.setpos(phoneTurtle.pos())
-        for i in throwFrames:
-            teresaTurtle.shape(i)
+       
         phoneTurtle.setheading(260)
         catcherTurtle.speed(0)
         # makes movement more randomized
@@ -232,7 +241,8 @@ def phoneFalling(y, skyRange, throwFrames=throwFrames, phoneTurtle=turtle.Turtle
             global score 
             score +=1
             scoreWriter.clear()
-            scoreWriter.write(score, fontSetup)
+            scoreWriter.write(score, font=("Arial", 17, "normal"))
+            phoneTurtle.hideturtle()
 
         # checks if the player lost (by not catching the phone) and updatng the program accordingly   
         if yCheckCatcher > yCheck:
@@ -240,6 +250,8 @@ def phoneFalling(y, skyRange, throwFrames=throwFrames, phoneTurtle=turtle.Turtle
             global winning
             winning = False
             print("u suck") 
+
+            
 
 def moveLeft(catcherTurtle=catcherTurtle):
     catcherTurtle.penup()
@@ -256,17 +268,19 @@ def moveRight(catcherTurtle=catcherTurtle):
 
 teresaTurtle = turtle.Turtle()
 
-def runningAnimation(runFrames, rangeSpotsY, rangeSpotsX, myTurtle=teresaTurtle):
+def runningAnimation(runFrames, rangeSpotsX, rangeSpotsY , myTurtle=teresaTurtle):
     myTurtle.color("orange")
     ySpot = random.randint(rangeSpotsY[0], rangeSpotsY[1])
     xSpot = random.randint(rangeSpotsX[0], rangeSpotsX[1])
     xCur, yCur = myTurtle.pos()
     # gets the difference between these two spots to know how far we need to move
-    xDiff = int(abs(xSpot) - abs(xCur))
+    xDiff = abs(int(abs(xSpot) - abs(xCur)))
+    print(xDiff)
     # uses iteration to move forward while doing stop motion, the extra amount of steps needed to be taken that cannot be
     # distributed equally will be added at the end 
     xRemainder = xDiff % 10
     myTurtle.setpos(xCur, ySpot)
+    myTurtle.setheading(180)
     myTurtle.showturtle()
     for i in range(xDiff//10):
         for j in runFrames:
@@ -276,6 +290,7 @@ def runningAnimation(runFrames, rangeSpotsY, rangeSpotsX, myTurtle=teresaTurtle)
             movement = 10/len(runFrames)
             myTurtle.forward(movement)
     myTurtle.forward(xRemainder)
+    return ySpot
 
 def setCatcherSpecs(catcherName, turtle=catcherTurtle):
     global speedSteps
@@ -289,6 +304,7 @@ def setCatcherSpecs(catcherName, turtle=catcherTurtle):
         speedSteps = 15
         turtle.turtlesize(0.5)
         turtle.shape(gina)
+
     elif catcherName == "Kate":
         speedSteps = 9
         turtle.shape(kate)
@@ -309,6 +325,7 @@ wn.ontimer(countdown, counterInterval)
 # timerUp and winning are the two conditions where the game would be over
 # the program can only run if these conditions are not met
 
+catcherTurtle.goto(0, -200)
 # loops through the movement and catching/scoring of the game
 while not timerUp and winning:
     # controls movement of the catcher
