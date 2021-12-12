@@ -1,14 +1,16 @@
 import turtle as trtl
-sauce = trtl.Turtle()
 class Ending:
   def __init__(self):
       global sauce
       sauce = trtl.Turtle()
+      sauce.hideturtle()
       global zoy
       zoy = trtl.Turtle()
+      zoy.hideturtle()
       
 
   def badEnding(self):
+    
     trtl.bgcolor("#c33f3c")
     sauce.speed(0)
     sauce.penup()

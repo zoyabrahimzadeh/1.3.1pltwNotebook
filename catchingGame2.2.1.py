@@ -1,7 +1,11 @@
 # imports
 import random
 import turtle
+import time
 from endings020 import Ending
+wn = turtle.Screen()
+
+print(wn.turtles())
 
 turtle.hideturtle()
 # variable initialization 
@@ -9,11 +13,14 @@ endingScreens = Ending()
 catcherTurtle = turtle.Turtle()
 catcherTurtle.color("green")
 catcherTurtle.penup()
+
 phoneTurtle=turtle.Turtle()
+phoneTurtle.hideturtle()
 score = 0
 winning = True
 fontSetup = ("Arial", 16, "normal")
 timer = 30
+
 counterInterval = 1000   #1000 represents 1 second
 timerUp = False
 phoneImg = "phoneTransparentBg.gif"
@@ -35,11 +42,11 @@ scoreWriter.penup()
 scoreWriter.hideturtle()
 scoreWriter.goto(-165, 200)
 schoolBg = "schoolBg_1_800x600.gif"
+
+# screen related variable initialization 
 wn = turtle.Screen()
 wn.addshape(schoolBg)
 wn.bgpic(schoolBg)
-# wn.bgcolor("lightgreen")
-# function for countdown/timer
 wn.addshape(phoneImg)
 wn.addshape(kate)
 wn.addshape(gina)
@@ -47,12 +54,10 @@ wn.addshape(alex)
 wn.addshape(teresaThrowOne)
 wn.addshape(teresaThrowTwo)
 wn.addshape(teresaRunOne)
-
-import turtle
-import time
-wn = turtle.Screen()
 wn.setup(800,600)
 
+
+# combines all the other intro functions and runs the whole intro, with all text segments and input collecting scenarios
 def intro():
     segOne = "Welcome to the games!\n Today, you will be playing as...er...who are you going to be" \
         " playing as?\n"
@@ -95,6 +100,9 @@ def intro():
     
 drawer = turtle.Turtle()   
 box = False 
+# function that can be reused (and is, many times) and simply draws a textbox at the bottom of the screen
+# if the box isn't already. the input is a string containing a total of 3 lines of code (two \n's)
+
 def writeSegment(seg):
     global box    
     drawer.clear()
@@ -124,6 +132,8 @@ def writeSegment(seg):
     drawer.write(seg, font=("Arial", 17, "normal"))
     drawer.setheading(0)
 
+# function that is called during the intro, displaying/controlling the information about such catchers
+# and collecting players choice of catcher 
 def playerInfo(inpStr):
     alex = "Alex (Hard) --> Pros: Tall (catches phone faster), Cons: Slower.\n" \
         "Alex is tall which gives him an advantage when catching things. "\
@@ -158,7 +168,7 @@ def playerInfo(inpStr):
         else:
             return False
 
-
+# function that control the timer for how long the game will last
 def countdown(counter=counter):
   counter.color("lightblue")
 
@@ -183,6 +193,7 @@ def countdown(counter=counter):
     counter.getscreen().ontimer(countdown, counterInterval)
 
 # function for the all of movement/ functionality of the phone
+# includes the phone falling, the coordinates it falls from (the catcher following), and the "catching"
 def phoneFalling(y, skyRange, throwFrames=throwFrames, phoneTurtle=phoneTurtle, catcher=catcherTurtle):
     phoneTurtle.penup()
     teresaTurtle.penup()
@@ -202,10 +213,6 @@ def phoneFalling(y, skyRange, throwFrames=throwFrames, phoneTurtle=phoneTurtle, 
     # to make it stimulate / appear as if theres movement
     angle = [phoneImg, phoneImg, phoneImg, phoneImg, phoneImg, phoneImg]
 
-    # this would also be the x of where teresa would run to (where she drops the phone from)
-    # x = random.randint(skyRange[0], skyRange[1])
-    # print(x)
-    # phoneTurtle.goto(x,y) # top of bridge, where the phone is dropped cords
     phoneTurtle.setheading(260) # sets the angle so it falls downward
 
     # defines the variable used to repeat the while loop until the phone reaches catcher/ floor
@@ -216,12 +223,12 @@ def phoneFalling(y, skyRange, throwFrames=throwFrames, phoneTurtle=phoneTurtle, 
     # code looping phone movement will run until they are in close range of each other (collision)
     # there are two cases in which the loop stops iterating, reaching the catcher, or the floor
     teresaTurtle.penup()
-    # teresaTurtle.setpos(phoneTurtle.pos())
     phoneTurtle.showturtle()
     for i in throwFrames:
         teresaTurtle.shape(i)
         time.sleep(0.5)
 
+    # runs while the phone has not passed the catcher (relative to y cordinate)
     while inAir: 
        
         phoneTurtle.setheading(260)
@@ -244,6 +251,7 @@ def phoneFalling(y, skyRange, throwFrames=throwFrames, phoneTurtle=phoneTurtle, 
         xCheckCatcher, yCheckCatcher = catcher.pos()
  
         # compares the coordinates of the two turtles to see if they're near each other/ collided
+        # essentially, checking if the player caught the phone. 
         if yCheckCatcher-30 < yCheck <yCheckCatcher + 30 and xCheckCatcher-20 < xCheck <xCheckCatcher + 20:# checks if the person is near the floor, stopping them from falling
             inAir = False
 
@@ -262,14 +270,14 @@ def phoneFalling(y, skyRange, throwFrames=throwFrames, phoneTurtle=phoneTurtle, 
             print("u suck") 
 
             
-
+# function that describes movement to be made when the "a" key is pressed
 def moveLeft(catcherTurtle=catcherTurtle):
     catcherTurtle.penup()
     catcherTurtle.setheading(180)
     global speedSteps
     catcherTurtle.forward(speedSteps)
 
-
+# function that describes movement to be made when the "d" key is pressed
 def moveRight(catcherTurtle=catcherTurtle):
     catcherTurtle.penup()
     catcherTurtle.setheading(0)
@@ -278,6 +286,7 @@ def moveRight(catcherTurtle=catcherTurtle):
 
 teresaTurtle = turtle.Turtle()
 
+# function that runs every time a point scored, throwing the phone again
 def runningAnimation(runFrames, rangeSpotsX, rangeSpotsY , myTurtle=teresaTurtle):
     myTurtle.color("orange")
     ySpot = random.randint(rangeSpotsY[0], rangeSpotsY[1])
@@ -302,6 +311,7 @@ def runningAnimation(runFrames, rangeSpotsX, rangeSpotsY , myTurtle=teresaTurtle
     myTurtle.forward(xRemainder)
     return ySpot
 
+# sets the turtles characteristics (pertaining to the game) according to the character chosen
 def setCatcherSpecs(catcherName, turtle=catcherTurtle):
     global speedSteps
     if catcherName == "Alex":
@@ -324,12 +334,14 @@ def setCatcherSpecs(catcherName, turtle=catcherTurtle):
 
 
 
-# fixing spinny thingy - add more frames/iteratiosn
-wn.bgcolor("white")
+# fixing spinny thingy - add more frames/iterations
+wn.bgcolor("white") 
+# introduction & setting up / collecting all info needed for game
 catcherName = intro() #call intro here
 # sets up the timer
 time.sleep(3)
 drawer.clear()
+box = False
 boxDrawer.clear()
 setCatcherSpecs(catcherName)
 wn.ontimer(countdown, counterInterval)
@@ -347,7 +359,10 @@ while not timerUp and winning:
     phoneFalling(200, [-100,100])
 
 # displays an ending depending on how the player performed 
+print(wn.turtles())
 
+# meaning that the game ran the whole time, the player won, saving teresa's phone
+# the game congratulates the player accordingly 
 if timer <= 0:
     # good ending
     counter.clear()
@@ -362,7 +377,7 @@ if timer <= 0:
 else:
     # if the timer isn't 0, that means it stopped incrementing before it reached 0
     # meaning that one of the loosing conditions was met, stopping the iteration
-    # bad ending 
+    # since the player lost, the game displays a bad ending 
     badSegment = "I can't believe you! I had faith that you would be able to save \n Teresa's phone." \
         " This is shameful. You got a score of {} too.... \n".format(score)
     counter.clear()
@@ -371,7 +386,6 @@ else:
     endingScreens.badEnding()
     writeSegment(badSegment)
 
-print(score)
 
 wn = turtle.Screen()
 wn.mainloop()

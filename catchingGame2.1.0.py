@@ -2,6 +2,7 @@
 import random
 import turtle
 
+
 turtle.hideturtle()
 # variable initialization 
 catcherTurtle = turtle.Turtle()
