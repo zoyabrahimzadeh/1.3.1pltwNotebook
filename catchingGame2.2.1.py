@@ -6,7 +6,6 @@ from endings020 import Ending
 wn = turtle.Screen()
 
 print(wn.turtles())
-
 turtle.hideturtle()
 # variable initialization 
 endingScreens = Ending()
@@ -75,7 +74,6 @@ def intro():
     time.sleep(3)
     wn.onclick(None)
     cont = True
-    # if extra time: fix bug where you can put any name, not catcher names
     while cont == True or cont == "m":
         global box
         box = True
@@ -183,8 +181,12 @@ def countdown(counter=counter):
   if timer <= 0 or not winning:
     # counter.write("Time's Up", font=fontSetup)
     timerUp = True
-    catcherTurtle.hideturtle()
     phoneTurtle.hideturtle()
+    phoneTurtle.shape('triangle') 
+    catcherTurtle.hideturtle()
+    phoneTurtle.setposition(-300, 300)
+    teresaTurtle.hideturtle()
+    scoreWriter.clear()
 
     # incrementally decreases the timer so that it eventually reaches 0 
   else:
@@ -267,7 +269,7 @@ def phoneFalling(y, skyRange, throwFrames=throwFrames, phoneTurtle=phoneTurtle, 
             inAir = False
             global winning
             winning = False
-            print("u suck") 
+            phoneTurtle.setposition(-1000, 1000)
 
             
 # function that describes movement to be made when the "a" key is pressed
